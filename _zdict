@@ -2,14 +2,25 @@
 
 _zdict () {
     _arguments\
-        '(-h --help)'{-h,--help}'[show help message and exit]'\
-        '(-v --version)'{-v,--version}"[show program\'s version number and exit]"\
-        '(-d --disable-db-cache)'{-d,--disable-db-cache}'[temporarily not using the result from db cache]'\
-        '(-t --query-timeout)'{-t,--query-timeout}'[set timeout for every query]:set timeout:(5)'\
-        '(-sp --show-provider)'{-sp,--show-provider}'[show the dictionary provider]'\
-        '(-su --show-url)'{-su,--show-url}'[show the url of the queried word]'\
-        '(-dt --dict)'{-dt,--dict}'[choose the dictionary you want]:dictionaries:{_values -s , dicts urban yahoo all moe}'\
-        '(-V --verbose)'{-V,--verbose}'[show more information for the queried word]'\
+        {-h,--help}'[show help message and exit]'\
+        {-v,--version}"[show program\'s version number and exit]"\
+        {-d,--disable-db-cache}'[temporarily not using the result from db cache]'\
+        {-t,--query-timeout}'[set timeout for every query]:set timeout:(5)'\
+        {-sp,--show-provider}'[show the dictionary provider]'\
+        {-su,--show-url}'[show the url of the queried word]'\
+        {-dt,--dict}'[choose the dictionary you want]:dictionaries:{_get_zdict_available_dicts}'\
+        {-ld,--list-dicts}'[show supported dictionaries]'\
+        {-V,--verbose}'[show more information for the queried word]'\
+        {-c,--force-color}'[force color printing]'\
+}
+
+local _zdict_available_dict_list=''
+
+_get_zdict_available_dicts () {
+    if [ "$_zdict_available_dict_list" = "" ]; then
+        _zdict_available_dict_list=($(zdict -ld | sed 's/: .*//' | tr '\n' ' '))
+    fi
+    _values -s , dicts $_zdict_available_dict_list all
 }
 
 _zdict "$@"
