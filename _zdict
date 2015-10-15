@@ -18,7 +18,9 @@ local _zdict_available_dict_list=''
 
 _get_zdict_available_dicts () {
     if [ "$_zdict_available_dict_list" = "" ]; then
-        _zdict_available_dict_list=($(zdict -ld | sed 's/: .*//' | tr '\n' ' '))
+        if command -v zdict; then
+            _zdict_available_dict_list=($(zdict -ld | sed 's/: .*//' | tr '\n' ' '))
+        fi
     fi
     _values -s , dicts $_zdict_available_dict_list all
 }
