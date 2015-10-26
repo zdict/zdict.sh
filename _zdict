@@ -1,6 +1,6 @@
 #compdef zdict
 
-_zdict () {
+function _zdict () {
     _arguments\
         {-h,--help}'[show help message and exit]'\
         {-v,--version}"[show program\'s version number and exit]"\
@@ -16,9 +16,9 @@ _zdict () {
 
 local _zdict_available_dict_list=''
 
-_get_zdict_available_dicts () {
+function _get_zdict_available_dicts () {
     if [ "$_zdict_available_dict_list" = "" ]; then
-        if command -v zdict; then
+        if command -v zdict >/dev/null 2>&1; then
             _zdict_available_dict_list=($(zdict -ld | sed 's/: .*//' | tr '\n' ' '))
         fi
     fi
