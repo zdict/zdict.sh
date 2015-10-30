@@ -7,8 +7,8 @@ zdict is a command line utility, it DOES need some completion scripts.
 Install - zsh
 -------------
 
-* Create a directory for your completion files, for example ``~/.zsh/completions``
-* Put ``_zdict`` into ``~/.zsh/completions``
-* Make sure ``~/.zsh/completions`` is in your ``$fpath`` environment variable, you can set it in your ``.zshrc`` like ::
+Use `antigen <https://github.com/zsh-users/antigen>`_ to install this zsh plugin ::
 
-    fpath=($HOME/.zsh/completions $fpath)
+  source path-to-antigen-script/antigen.zsh
+  antigen bundle zdict/zdict.zsh
+  antigen apply
