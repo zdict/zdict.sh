@@ -13,10 +13,14 @@ if [[ -n "$TMUX" ]]; then
         if [[ -n "$ZDICT_PANE_ID" ]]; then
             # zdict pane was exist
             # now try to select it
-            if $(tmux select-pane -t $ZDICT_PANE_ID 2>/dev/null); then
-                # select successed, good
+            if tmux select-pane -t $ZDICT_PANE_ID 2>/dev/null; then
+                # select successed, zdict pane exists
                 tmux select-pane -t $TMUX_PANE
-                return
+                # but does it is in the same window with me?
+                if tmux list-panes | grep $ZDICT_PANE_ID 2>&1 1>/dev/null; then
+                    # it's in the same window with me, good
+                    return
+                fi
             fi
         fi
 
