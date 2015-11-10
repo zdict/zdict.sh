@@ -16,10 +16,10 @@ function _zdict () {
 
 local _zdict_available_dict_list=''
 
-function _get_zdict_available_dicts () {
+_get_zdict_available_dicts () {
     if [ "$_zdict_available_dict_list" = "" ]; then
         if command -v zdict >/dev/null 2>&1; then
-            _zdict_available_dict_list=($(zdict -ld | sed 's/: .*//' | tr '\n' ' '))
+            _zdict_available_dict_list=($(zdict -ld | sed 's/: .*//' | sed 's/\[[^mh]*[mh]//' | tr '\n' ' '))
         fi
     fi
     _values -s , dicts $_zdict_available_dict_list all
