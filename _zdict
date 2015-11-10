@@ -12,9 +12,10 @@ function _zdict () {
         {-ld,--list-dicts}'[show supported dictionaries]'\
         {-V,--verbose}'[show more information for the queried word]'\
         {-c,--force-color}'[force color printing]'\
+        '*:history:{_get_zdict_history}'
 }
 
-local _zdict_available_dict_list=''
+local _zdict_available_dict_list=()
 
 _get_zdict_available_dicts () {
     if [ "$_zdict_available_dict_list" = "" ]; then
@@ -23,6 +24,14 @@ _get_zdict_available_dicts () {
         fi
     fi
     _values -s , dicts $_zdict_available_dict_list all
+}
+
+_get_zdict_history () {
+    if command -v sqlite3 >/dev/null 2>&1; then
+        _arguments "*:history:($(sqlite3 $HOME/.zdict/zdict.db 'select word from record' | tr '\n' ' '))"
+    else
+        true
+    fi
 }
 
 _zdict "$@"
