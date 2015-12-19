@@ -45,7 +45,14 @@ if [[ -n "$TMUX" ]]; then
             zle .kill-whole-line
         fi
     }
-    zle -N _query_zdict
-
-    bindkey "\C-x" _query_zdict
+else
+    function _query_zdict () {
+        if [[ -n "$BUFFER" ]]; then
+            BUFFER="zdict $BUFFER"
+            zle .accept-line
+        fi
+    }
 fi
+
+zle -N _query_zdict
+bindkey "\C-x" _query_zdict
