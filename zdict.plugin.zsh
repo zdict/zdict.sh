@@ -48,7 +48,9 @@ if [[ -n "$TMUX" ]]; then
 else
     function _query_zdict () {
         if [[ -n "$BUFFER" ]]; then
-            BUFFER="zdict $BUFFER"
+            if [[ ${BUFFER:0:6} != "zdict " ]]; then
+                BUFFER="zdict $BUFFER"
+            fi
             zle .accept-line
         fi
     }
