@@ -12,6 +12,7 @@ function _zdict () {
         {-ld,--list-dicts}'[show supported dictionaries]'\
         {-V,--verbose}'[show more information for the queried word]'\
         {-c,--force-color}'[force color printing]'\
+        '--dump[Dump the querying history, can be filtered with regex]'\
         '*:history:{_get_zdict_history}'
 }
 
