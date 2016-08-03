@@ -1,0 +1,68 @@
+_zdict() {
+    local i cur prev opts cmds
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    cmd=""
+    opts=""
+
+    for i in ${COMP_WORDS[@]}
+    do
+        case "${i}" in
+            zdict)
+                cmd="zdict"
+                ;;
+
+            zdict)
+                cmd+="_zdict"
+                ;;
+            *)
+                ;;
+        esac
+    done
+
+    case "${cmd}" in
+        zdict)
+            opts=" -d -t -j -V -c -D -h -v  --disable-db-cache --query-timeout --jobs --show-provider --show-url --dict --list-dicts --verbose --force-color --dump --debug --help --version  <words> "
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+                return 0
+            fi
+            case "${prev}" in
+
+                --query-timeout)
+                    COMPREPLY=("<QUERY_TIMEOUT>")
+                    return 0
+                    ;;
+                    -t)
+                    COMPREPLY=("<QUERY_TIMEOUT>")
+                    return 0
+                    ;;
+                --jobs)
+                    COMPREPLY=("<JOBS>")
+                    return 0
+                    ;;
+                    -j)
+                    COMPREPLY=("<JOBS>")
+                    return 0
+                    ;;
+                --dict)
+                    COMPREPLY=($(compgen -W "urban yahoo jisho spanish moe all" -- ${cur}))
+                    return 0
+                    ;;
+                --dump)
+                    COMPREPLY=("<PATTERN>")
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+            return 0
+            ;;
+
+    esac
+}
+
+complete -F _zdict zdict
